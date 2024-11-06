@@ -1,0 +1,4 @@
+email = { username ~ "@" ~ domain }
+username = { (ASCII_ALPHANUMERIC | "_" | "." | "-")+ }
+domain = { subdomain ~ ("." ~ subdomain)+ }
+subdomain = { ASCII_ALPHANUMERIC+ }
