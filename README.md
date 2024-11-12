@@ -36,22 +36,6 @@ Sender
 ## Result
 
 ```text
-From: sender@example.com
-To: recipient@example.com
-Subject: Meeting Update
-
-Hello,
-
-This is a reminder for our meeting scheduled tomorrow at 10 AM.
-Please let us know if you have any questions.
-
-Best regards,
-Sender
-```
-
-### Grammar
-
-```text
 ParsedEmail {
     headers: [
         (
@@ -74,6 +58,8 @@ ParsedEmail {
     ],
 }
 ```
+
+### Grammar
 
 ### email
 
