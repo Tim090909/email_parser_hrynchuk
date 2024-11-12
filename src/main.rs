@@ -1,15 +1,38 @@
-use hrynchuk_email_parser::parse_email;
+use email_pest_parser::ParsedEmail;
 use std::env;
+use std::fs;
 
-fn main() {
+fn main() -> anyhow::Result<()> {
     let args: Vec<String> = env::args().collect();
+
     if args.len() < 2 {
-        eprintln!("Please provide an email to validate.");
-        return;
+        print_help();
+        return Ok(());
     }
-    let email = &args[1];
-    match parse_email(email) {
-        Ok(_) => println!("Email is valid."),
-        Err(err) => println!("Invalid email: {}", err),
+
+    match args[1].as_str() {
+        "help" => print_help(),
+        "credits" => print_credits(),
+        file_path => {
+            let content = fs::read_to_string(file_path)?;
+            match ParsedEmail::from_email(&content) {
+                Ok(parsed_email) => println!("{:#?}", parsed_email),
+                Err(e) => eprintln!("Error parsing email: {}", e),
+            }
+        }
     }
+
+    Ok(())
+}
+
+fn print_help() {
+    println!("Email Parser Usage:");
+    println!("  cargo run <email_file>      Parses an email file.");
+    println!("  cargo run help              Displays help information.");
+    println!("  cargo run credits           Shows project credits.");
+}
+
+fn print_credits() {
+    println!("Email Parser");
+    println!("Created by Tymofii Hrynchuk");
 }

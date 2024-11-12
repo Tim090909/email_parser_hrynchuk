@@ -1,4 +1,58 @@
-email = { username ~ "@" ~ domain }
+/// Email parsing rule
+/// 
+/// The `email` rule consists of two main parts: the `headers` and the `body`, which are separated by a `NEWLINE`.
+/// The `headers` part contains a series of header lines, and the `body` part contains the actual message content.
+email = { headers ~ NEWLINE ~ body }
+
+/// Header parsing rule
+/// 
+/// The `headers` rule consists of one or more `header_line` rules, each followed by a `NEWLINE`.
+/// The `*` operator means that the `header_line` rule can repeat any number of times, including zero.
+headers = { (header_line ~ NEWLINE)* }
+
+/// Header line parsing rule
+/// 
+/// A `header_line` consists of a `field_name`, followed by a colon and a space (`": "`), and then a `field_value`.
+/// The `field_name` is the name of the header (e.g., `Subject`, `From`), and the `field_value` is the value of that header.
+header_line = { field_name ~ ": " ~ field_value }
+
+/// Field name parsing rule
+/// 
+/// The `field_name` rule allows alphanumeric characters, hyphens (`"-"`), and underscores (`"_"`).
+/// This is the part before the colon in a header line, such as "Subject" or "From".
+field_name = { (ASCII_ALPHANUMERIC | "-" | "_")+ }
+
+/// Field value parsing rule
+/// 
+/// The `field_value` rule matches any characters except a `NEWLINE`.
+/// It allows the header's value to span multiple characters.
+field_value = { (!NEWLINE ~ ANY)+ }
+
+/// Body parsing rule
+/// 
+/// The `body` rule matches any character (`ANY`) except the end of input (`EOI`), repeated zero or more times.
+/// This rule captures the content after the headers section of the email.
+body = { (!EOI ~ ANY)* }
+
+/// Email address parsing rule
+/// 
+/// An `email_address` consists of a `username`, followed by the "@" symbol, and then a `domain`.
+/// The `domain` is further broken down into `subdomain` components.
+email_address = { username ~ "@" ~ domain }
+
+/// Username parsing rule
+/// 
+/// The `username` rule allows one or more characters, including ASCII alphanumeric characters, underscores (`"_"`), dots (`"."`), and hyphens (`"-"`).
 username = { (ASCII_ALPHANUMERIC | "_" | "." | "-")+ }
+
+/// Domain parsing rule
+/// 
+/// The `domain` rule consists of one or more `subdomain` rules, separated by periods (`"."`).
+/// A `subdomain` is a series of ASCII alphanumeric characters.
 domain = { subdomain ~ ("." ~ subdomain)+ }
+
+/// Subdomain parsing rule
+/// 
+/// A `subdomain` consists of one or more ASCII alphanumeric characters.
+/// This is typically the part of a domain name, such as `gmail` in `gmail.com`.
 subdomain = { ASCII_ALPHANUMERIC+ }

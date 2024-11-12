@@ -1,11 +1,12 @@
 [package]
-name = "hrynchuk_email_parser"
+name = "email_pest_parser"
 version = "0.1.0"
 edition = "2021"
-description = "An email parser that validates email addresses using grammar rules."
+description = "An email parser that parse entire email and validates email addresses."
 license = "MIT"
 
 [dependencies]
-anyhow = "1.0.91"
+anyhow = "1.0.93"
 pest = "2.7.14"
 pest_derive = "2.7.14"
+thiserror = "2.0.3"
