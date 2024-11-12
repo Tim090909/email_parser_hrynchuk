@@ -1,6 +1,6 @@
 [package]
 name = "email_pest_parser"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Hrynchuk Tymofii <t.hrynchuk@ukma.edu.ua>"]
 description = "An email parser that parse entire email and validates email addresses."
